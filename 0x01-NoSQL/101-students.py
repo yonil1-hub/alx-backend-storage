@@ -10,16 +10,15 @@ def top_students(mongo_collection):
     The average score is included in each item returned
     with key 'averageScore'.
     """
-    pipeline = [
+
+    top_student = mongo_collection.aggregate([
         {
-            '$addFields': {
-                'averageScore': {'$avg': '$scores.score'}
+            "$project": {
+                "name": "$name",
+                "averageScore": {"$avg": "$topics.score"}
             }
         },
-        {
-            '$sort': {
-                'averageScore': -1
-            }
-        }
-    ]
-    return list(mongo_collection.aggregate(pipeline))
+        {"$sort": {"averageScore": -1}}
+    ])
+
+    return top_student
