@@ -1,0 +1,2 @@
+// list all the documents where name starts with Holberton
+db.school.find({name: /^Holberton/ })
